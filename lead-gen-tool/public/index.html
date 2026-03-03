@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Generation Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Lead Generation Tool</h1>
+
+        <div class="search-form">
+            <div class="form-row">
+                <input type="text" id="keyword" placeholder="Profession (e.g. Plumber)" />
+                <input type="text" id="location" placeholder="Suburb or area (e.g. Penrith)" />
+                <input type="text" id="countryCode" placeholder="au" value="au" maxlength="2" title="ISO 2-letter country code (e.g. au, us, gb)" />
+            </div>
+            <div class="form-row">
+                <select id="radius">
+                    <option value="1000">Radius: 1 km</option>
+                    <option value="2000">Radius: 2 km</option>
+                    <option value="5000" selected>Radius: 5 km</option>
+                    <option value="10000">Radius: 10 km</option>
+                    <option value="20000">Radius: 20 km</option>
+                </select>
+                <select id="gridSize">
+                    <option value="1">Grid: 1 point</option>
+                    <option value="4">Grid: 2x2 (4 points)</option>
+                    <option value="9" selected>Grid: 3x3 (9 points)</option>
+                    <option value="16">Grid: 4x4 (16 points)</option>
+                </select>
+                <button id="searchBtn">Search</button>
+            </div>
+            <div id="coordsDisplay" class="coords-display" style="display:none;"></div>
+        </div>
+
+        <div id="loading" class="loading" style="display:none;">Running grid search... this may take 30–60 seconds.</div>
+
+        <div id="results-section" style="display:none;">
+
+            <!-- Stats bar -->
+            <div class="stats-bar">
+                <div class="stat"><span id="statRaw">0</span><label>Raw Results</label></div>
+                <div class="stat"><span id="statUnique">0</span><label>Unique</label></div>
+                <div class="stat"><span id="statDupes">0</span><label>Dupes Removed</label></div>
+                <div class="stat highlight"><span id="statLeads">0</span><label>Leads (No Website)</label></div>
+            </div>
+
+            <!-- No Website Leads -->
+            <div class="section-header">
+                <h2>Leads — No Website <span class="badge badge-green" id="noWebsiteCount">0</span></h2>
+            </div>
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Business Name</th>
+                        <th>Address</th>
+                        <th>Place ID</th>
+                    </tr>
+                </thead>
+                <tbody id="noWebsiteBody"></tbody>
+            </table>
+
+            <button id="exportBtn" class="export-button">Export Leads as CSV</button>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

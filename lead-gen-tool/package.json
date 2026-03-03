@@ -1,0 +1,26 @@
+{
+  "name": "lead-gen-tool",
+  "version": "1.0.0",
+  "description": "A simple internal lead generation tool that finds businesses without a website listed on Google using the Google Places API.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "keywords": [
+    "lead generation",
+    "Google Places API",
+    "Node.js",
+    "Express"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
