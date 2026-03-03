@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <span class="nav-brand">LeadGen</span>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/lead-gen">Lead Generation</a>
+                <a href="/tracker" class="active">Tracker</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Lead Tracker</h1>
+
+        <!-- Filters -->
+        <div class="tracker-filters">
+            <select id="statusFilter">
+                <option value="all">All Statuses</option>
+                <option value="new">New</option>
+                <option value="contacted_interested">Contacted — Interested</option>
+                <option value="contacted_not_interested">Contacted — Not Interested</option>
+                <option value="discarded">Discarded</option>
+            </select>
+            <input type="text" id="searchFilter" placeholder="Search name, address, keyword…" />
+            <button id="applyFilters">Apply Filters</button>
+            <span id="leadCount" class="lead-count"></span>
+        </div>
+
+        <div id="trackerLoading" class="loading" style="display:none;">Loading leads…</div>
+        <div id="trackerError" class="error-msg" style="display:none;"></div>
+
+        <!-- Table -->
+        <div class="table-wrapper">
+            <table class="results-table tracker-table">
+                <thead>
+                    <tr>
+                        <th>Business Name</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                        <th>Notes</th>
+                        <th>Address</th>
+                        <th>Keyword</th>
+                        <th>Location</th>
+                        <th>Found</th>
+                    </tr>
+                </thead>
+                <tbody id="trackerBody">
+                    <tr id="emptyRow"><td colspan="8" style="text-align:center;color:#888;padding:24px;">No leads found. Run a search to generate leads.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="config.js"></script>
+    <script src="tracker.js"></script>
+</body>
+</html>
