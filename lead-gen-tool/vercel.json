@@ -1,5 +1,7 @@
 {
   "outputDirectory": "public",
+  "buildCommand": "",
+  "installCommand": "",
   "rewrites": [
     { "source": "/lead-gen", "destination": "/lead-gen.html" },
     { "source": "/tracker", "destination": "/tracker.html" }
