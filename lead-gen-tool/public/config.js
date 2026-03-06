@@ -1,4 +1,5 @@
-// Set the backend API URL here.
-// Local dev: leave as empty string (same-server, relative URLs work fine)
-// Production: set to your Render URL, e.g. 'https://lead-gen-tool.onrender.com'
-window.API_BASE = 'https://lead-generation-kr3d.onrender.com';
+// Auto-detects environment — no changes needed when switching between local and prod.
+window.API_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+    ? ''  // local: relative URLs, same Express server
+    : 'https://lead-generation-kr3d.onrender.com';
+

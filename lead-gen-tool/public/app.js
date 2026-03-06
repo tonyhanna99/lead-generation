@@ -37,20 +37,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 searchesEmpty.style.display = 'block';
                 return;
             }
-            searchesBody.innerHTML = searches.map(s => {
-                const date = s.searchedAt
-                    ? new Date(s.searchedAt).toLocaleDateString('en-AU', { day: '2-digit', month: 'short', year: 'numeric' })
-                    : '—';
-                const radiusLabel = Number(s.radius) >= 1000 ? `${Number(s.radius)/1000} km` : `${s.radius} m`;
-                const gridLabel = { '1':'1 point','4':'2×2','9':'3×3','16':'4×4' }[s.gridSize] || s.gridSize;
-                return `<tr>
-                    <td>${s.keyword}</td>
-                    <td>${s.location}</td>
-                    <td>${radiusLabel}</td>
-                    <td>${gridLabel}</td>
-                    <td>${s.leadsFound}</td>
-                    <td>${date}</td>
+            // Group by location (suburb)
+            const grouped = {};
+            searches.forEach(s => {
+                const loc = s.location || 'Unknown';
+                if (!grouped[loc]) grouped[loc] = [];
+                grouped[loc].push(s);
+            });
+
+            searchesBody.innerHTML = Object.entries(grouped).map(([loc, rows]) => {
+                const totalLeads = rows.reduce((sum, s) => sum + (s.leadsFound || 0), 0);
+                const groupRow = `<tr class="searches-group-header">
+                    <td colspan="5">📍 ${loc} <span style="font-weight:400; opacity:0.65;">— ${rows.length} search${rows.length > 1 ? 'es' : ''}, ${totalLeads} lead${totalLeads !== 1 ? 's' : ''} found</span></td>
                 </tr>`;
+                const dataRows = rows.map(s => {
+                    const date = s.searchedAt
+                        ? new Date(s.searchedAt).toLocaleDateString('en-AU', { day: '2-digit', month: 'short', year: 'numeric' })
+                        : '—';
+                    const radiusLabel = Number(s.radius) >= 1000 ? `${Number(s.radius)/1000} km` : `${s.radius} m`;
+                    const gridLabel = { '1':'1 point','4':'2×2','9':'3×3','16':'4×4' }[s.gridSize] || s.gridSize;
+                    return `<tr>
+                        <td>${s.keyword}</td>
+                        <td>${radiusLabel}</td>
+                        <td>${gridLabel}</td>
+                        <td>${s.leadsFound}</td>
+                        <td>${date}</td>
+                    </tr>`;
+                }).join('');
+                return groupRow + dataRows;
             }).join('');
             searchesTable.style.display = 'table';
         } catch (e) {

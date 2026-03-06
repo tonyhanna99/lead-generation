@@ -1,49 +1,38 @@
-# Lead Generation Tool
+# LeadGen Tool
 
-This project is a simple internal lead generation tool that utilizes the Google Places API to find businesses without a website listed on Google. 
+Internal lead generation tool — finds businesses without a website using the Google Places API, with a Firestore-backed tracker.
 
-## Project Structure
+## Run Locally
 
-```
-lead-gen-tool
-├── src
-│   ├── server.js          # Entry point of the application
-│   ├── routes
-│   │   └── places.js      # API endpoints for Google Places
-│   ├── services
-│   │   └── googlePlaces.js # Logic for interacting with Google Places API
-│   └── utils
-│       ├── delay.js       # Function to implement delay for rate limiting
-│       └── csvExport.js    # Function to export business data to CSV
-├── public
-│   ├── index.html         # Frontend HTML structure
-│   ├── style.css          # Styles for the frontend
-│   └── app.js             # Frontend JavaScript logic
-├── .env                   # Environment variables (API key)
-├── .gitignore             # Files and directories to ignore in Git
-├── package.json           # npm configuration file
-└── README.md              # Project documentation
+```bash
+cd lead-gen-tool
+npm install
+node src/server.js
 ```
 
-## Getting Started
+Then open:
+- **Home:** http://localhost:3000
+- **Lead Gen:** http://localhost:3000/lead-gen
+- **Tracker:** http://localhost:3000/tracker
 
-### Prerequisites
+The frontend auto-detects localhost — no config changes needed.
 
-- Node.js installed on your machine
-- An active Google Cloud account with access to the Google Places API
+## .env file
 
-### Installation
+Create `lead-gen-tool/.env`:
+```
+GOOGLE_PLACES_API_KEY=your_key
+FIREBASE_PROJECT_ID=your_project_id
+FIREBASE_CLIENT_EMAIL=your_client_email
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+```
 
-1. Clone the repository:
-   ```
-   git clone <repository-url>
-   cd lead-gen-tool
-   ```
+## Deploy
 
-2. Install the dependencies:
-   ```
-   npm install
-   ```
+- **Backend** → [Render](https://render.com) — auto-deploys from `main`
+- **Frontend** → [Vercel](https://vercel.com) — auto-deploys from `main`
+
+---
 
 3. Create a `.env` file in the root directory and add your Google Places API key:
    ```

@@ -177,6 +177,22 @@ button:hover {
     background-color: #fafafa;
 }
 
+.searches-group-header td {
+    background: rgba(255,255,255,0.05);
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #a0a0c0;
+    padding-top: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.searches-group-header:first-child td {
+    border-top: none;
+}
+
 .results-table a {
     color: #007bff;
     word-break: break-all;
