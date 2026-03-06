@@ -155,23 +155,32 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Show spinner immediately so there's no blank delay during cold-start
+        showSpinner('Connecting…');
+        searchBtn.disabled = true;
+
         // Check if this exact search has been run before
         try {
             const chkRes = await fetch(`${API_BASE}/api/searches/check?${new URLSearchParams({ keyword, location: locationRaw, radius, gridSize })}`);
             const chk = await chkRes.json();
             if (chk.exists) {
+                hideSpinner();
                 const when = chk.searchedAt
                     ? new Date(chk.searchedAt).toLocaleDateString('en-AU', { day: '2-digit', month: 'short', year: 'numeric' })
                     : 'previously';
                 const msg = `You already searched for "${keyword}" in "${locationRaw}" (radius ${radius}m, grid ${gridSize}) on ${when} — it returned ${chk.leadsFound} lead(s). Run it again?`;
                 const proceed = await confirmDuplicate(msg);
-                if (!proceed) return;
+                if (!proceed) {
+                    searchBtn.disabled = false;
+                    return;
+                }
             }
         } catch (e) {
             // If check fails for any reason, just proceed silently
         }
 
         await runSearch(keyword, locationRaw, radius, gridSize);
+        searchBtn.disabled = false;
     });
 
     exportBtn.addEventListener('click', () => {
