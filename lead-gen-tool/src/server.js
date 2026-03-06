@@ -21,6 +21,9 @@ app.use('/api/places', placesRouter);
 app.use('/api/leads', leadsRouter);
 app.use('/api/searches', searchesRouter);
 
+// Health check — used by UptimeRobot to keep the server warm
+app.get('/health', (req, res) => res.json({ status: 'ok' }));
+
 // Named page routes
 app.get('/lead-gen', (req, res) => res.sendFile(path.join(__dirname, '../public/lead-gen.html')));
 app.get('/tracker', (req, res) => res.sendFile(path.join(__dirname, '../public/tracker.html')));
