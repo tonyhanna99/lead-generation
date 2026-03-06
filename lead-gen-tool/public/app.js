@@ -21,6 +21,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let noWebsiteResults = [];
 
+    // ── Searches history table ───────────────────────────────────────────────
+    const searchesTable = document.getElementById('searchesTable');
+    const searchesBody  = document.getElementById('searchesBody');
+    const searchesEmpty = document.getElementById('searchesEmpty');
+
+    const loadSearchHistory = async () => {
+        try {
+            const res = await fetch(`${API_BASE}/api/searches`);
+            const searches = await res.json();
+            searchesEmpty.style.display = 'none';
+            if (!searches.length) {
+                searchesTable.style.display = 'none';
+                searchesEmpty.textContent = 'No searches yet.';
+                searchesEmpty.style.display = 'block';
+                return;
+            }
+            searchesBody.innerHTML = searches.map(s => {
+                const date = s.searchedAt
+                    ? new Date(s.searchedAt).toLocaleDateString('en-AU', { day: '2-digit', month: 'short', year: 'numeric' })
+                    : '—';
+                const radiusLabel = Number(s.radius) >= 1000 ? `${Number(s.radius)/1000} km` : `${s.radius} m`;
+                const gridLabel = { '1':'1 point','4':'2×2','9':'3×3','16':'4×4' }[s.gridSize] || s.gridSize;
+                return `<tr>
+                    <td>${s.keyword}</td>
+                    <td>${s.location}</td>
+                    <td>${radiusLabel}</td>
+                    <td>${gridLabel}</td>
+                    <td>${s.leadsFound}</td>
+                    <td>${date}</td>
+                </tr>`;
+            }).join('');
+            searchesTable.style.display = 'table';
+        } catch (e) {
+            searchesEmpty.textContent = 'Could not load search history.';
+            searchesEmpty.style.display = 'block';
+        }
+    };
+
+    loadSearchHistory();
+
     // ── Spinner helpers ──────────────────────────────────────────────────────
     const showSpinner = (msg = 'Running grid search…') => {
         spinnerMsg.textContent = msg;
@@ -181,6 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         await runSearch(keyword, locationRaw, radius, gridSize);
         searchBtn.disabled = false;
+        loadSearchHistory();
     });
 
     exportBtn.addEventListener('click', () => {

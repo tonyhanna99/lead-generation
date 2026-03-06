@@ -90,6 +90,27 @@
 
             <button id="exportBtn" class="export-button">Export Leads as CSV</button>
         </div>
+
+        <!-- All Searches History -->
+        <div class="section-header" style="margin-top:2.5rem; margin-bottom:0.5rem;">
+            <h2>All Searches</h2>
+        </div>
+        <div id="searchesTableWrap" style="margin-bottom:2rem; overflow-x:auto;">
+            <table class="results-table" id="searchesTable" style="display:none;">
+                <thead>
+                    <tr>
+                        <th>Keyword</th>
+                        <th>Location</th>
+                        <th>Radius</th>
+                        <th>Grid</th>
+                        <th>Leads Found</th>
+                        <th>Searched On</th>
+                    </tr>
+                </thead>
+                <tbody id="searchesBody"></tbody>
+            </table>
+            <p id="searchesEmpty" style="color:#aaa; font-size:0.9rem;">Loading…</p>
+        </div>
     </div>
     <script src="config.js"></script>
     <script src="app.js"></script>

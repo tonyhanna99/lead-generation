@@ -32,6 +32,29 @@ router.get('/check', async (req, res) => {
     }
 });
 
+// GET /api/searches — list all searches, most recent first
+router.get('/', async (req, res) => {
+    try {
+        const db = getFirestore();
+        const snap = await db.collection(COLLECTION).orderBy('searchedAt', 'desc').get();
+        const searches = snap.docs.map(doc => {
+            const d = doc.data();
+            return {
+                keyword: d.keyword,
+                location: d.location,
+                radius: d.radius,
+                gridSize: d.gridSize,
+                leadsFound: d.leadsFound || 0,
+                searchedAt: d.searchedAt?.toDate()?.toISOString() || null
+            };
+        });
+        return res.json(searches);
+    } catch (e) {
+        console.warn('[searches] list failed:', e.message);
+        return res.json([]);
+    }
+});
+
 // POST /api/searches — record a completed search
 router.post('/', async (req, res) => {
     const { keyword, location, radius, gridSize, leadsFound } = req.body;
